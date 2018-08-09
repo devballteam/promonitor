@@ -1,0 +1,146 @@
+body {
+  background-color: #4c4b4b;
+  color: #fff;
+  font-family: 'Heebo', sans-serif;
+  margin: 0;
+}
+
+img {
+  border-radius: 50%;
+  width: 45px;
+  margin: 2px 5px;
+}
+
+i.arrow {
+  margin: 0 1%;
+}
+
+.approved,
+.commented,
+.changes_requested {
+  border-radius: 50%;
+  height: 25px;
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  width: 25px;
+}
+
+.approved {
+  background-color: green;
+}
+
+.commented {
+  background-color: orange;
+}
+
+.changes_requested {
+  background-color: red;
+}
+
+.none {
+  display: none;
+}
+
+span.base {
+  background-color: darkgray;
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 4px;
+}
+
+div.reviewer {
+  display: inline-block;
+  float: right;
+  margin: 2px;
+  position: relative;
+  text-align: center;
+  width: 15%;
+}
+
+img.reviewer {
+  display: block;
+  margin: 5px auto;
+}
+
+.reviewers {
+  width: 40%
+}
+
+.row {
+  display: table-row;
+}
+
+.row:nth-child(odd) {
+  background-color: #404040;
+}
+
+.cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+a {
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+section.table {
+  box-sizing: border-box;
+  display: table;
+  margin-top: 35px;
+  padding: 5px;
+  width: 100%;
+}
+
+.last {
+  font-size: 13px;
+}
+
+.repo,
+.last-update {
+  color: orange;
+  margin-right: 1%;
+}
+
+.last-update {
+  margin-left: 10%;
+}
+
+header {
+  background-color: black;
+  box-sizing: border-box;
+  height: 35px;
+  line-height: 35px;
+  margin: 0;
+  padding: 0 10px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+button.repos-list {
+  background: gray;
+  border: none;
+  bottom: 0;
+  color: white;
+  margin: 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+div.repos-list {
+  background-color: black;
+  max-height: 80%;
+  overflow: auto;
+  position: absolute;
+  right: 0;
+  top: 35px;
+  width: 30%;
+}
