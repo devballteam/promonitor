@@ -1,15 +1,28 @@
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Pull Requests Status</title>
-    <link href="https://fonts.googleapis.com/css?family=Heebo:300" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <meta name="author" content="gumen">
+    <meta name="keywords" content="promonitor, prmonitor, gitshit, devball">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>pr(o)monitor</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/monitor.css">
   </head>
+
   <body>
-    <header>DevBall - Pull Requests Status Monitor <button class="repos-list">Repositories</button></header>
-    <section class="table">
-    </section>
-    <div class="repos-list"></div>
-    <script src="config.js"></script>
-    <script src="main.js"></script>
+    <header>
+      <nav>
+        <a href="config.html">config</a>
+      </nav>
+      <span data-timer="0">Check for new pull requests in:</span>
+    </header>
+
+    <main>
+      <ul id="pull-requests-list"></ul>
+    </main>
+
+    <script type="text/javascript" src="js/timer.js"></script>
+    <script type="text/javascript" src="js/monitor.js"></script>
   </body>
 </html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="gumen">
+    <meta name="keywords" content="promonitor, prmonitor, gitshit, devball">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>pr(o)monitor | config</title>
+    <link rel="stylesheet" href="styles/config.css">
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <a href="index.html">go back</a>
+      </nav>
+    </header>
+
+    <main>
+      <p id="parse-error" class="error"><strong>Parse error.</strong> Make sure that your config is written in proper JSON format.</p>
+      <p>Visit: <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> to create new token.  For scope select "repo" and after token is created don't forget to click on 'sso' button.</p>
+      <form id="config">
+        <textarea rows="20" cols="80" required>
+{
+  "token": "your_github_token",
+  "refreshTime": 600000, // 10 min
+  "defaultBranch": "develop",
+  "repos": [
+    { "fullName": "owner/repo-name" },
+    { "fullName": "owner/repo-name-2" },
+    { "fullName": "owner/repo-name-3" },
+
+    // You can overwrite global options in repo
+    {
+      "fullName": "owner/repo-name-4",
+      "refreshTime": 300000,
+      "defaultBranch": "release/dev"
+    }
+  ]
+}
+        </textarea>
+        <input type="submit" value="save">
+      </form>
+    </main>
+
+    <script type="text/javascript" src="js/config.js"></script>
+  </body>
+</html>
+
