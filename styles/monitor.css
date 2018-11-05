@@ -18,16 +18,16 @@ html {
 body {
   font-size: 16px;
   font-family: 'Courier New', monospace;
-  background-color: #676a72;
-  padding: 1em 2vw;
+  background-color: #42464a;
+  padding: 1em 2vw 2em 2vw;
   width: 100%;
-  color: #323131;
+  color: #fff;
 }
 
-header,
-main {
-  max-width: 1024px;
-  margin: 0 auto;
+.container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 header {
@@ -42,18 +42,14 @@ nav {
 header span,
 header nav a {
   color: currentColor;
-  font-size: .6em;
-  letter-spacing: .1em;
   padding: .2em .4em;
-  text-transform: uppercase;
 }
 
 img[class*="avatar"] {
-  width: 40px;
-  height: 40px;
+  height: 100%;
   border-left: 1px solid #000;
   border-right: 1px solid #000;
-  background-color: currentColor;
+  background-color: #000;
 }
 
 [data-timer]::after {
@@ -66,6 +62,7 @@ img[class*="avatar"] {
 }
 #pull-requests-list:empty::after {
   content: "Nothing to see here.";
+  font-size: 1.5em;
   text-align: center;
   display: block;
   padding: 2em 0;
@@ -74,8 +71,10 @@ img[class*="avatar"] {
 .pull-request {
   margin-bottom: 1em;
   background-color: #ececec;
+  color: #000;
   border: 1px solid #000;
-  height: 42px;
+  height: 4em;
+  width: 100%;
   position: relative;
   overflow: hidden;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, .2);
@@ -88,7 +87,6 @@ img[class*="avatar"] {
 .pull-request.branch-warning::before {
   position: absolute;
   left: -1px;
-  font-size: .5em;
   letter-spacing: .1em;
   padding: .1em .2em;
   background-color: #eee;
@@ -110,7 +108,7 @@ img[class*="avatar"] {
 .main-link,
 .reviewers-list {
   vertical-align: middle;
-  height: 40px;
+  height: 100%;
 }
 
 .author-avatar {
@@ -120,6 +118,7 @@ img[class*="avatar"] {
 .main-link {
   text-decoration: none;
   color: currentColor;
+  font-size: 1.5em;
   margin: 0 1em;
 }
 .main-link:hover {
@@ -148,16 +147,13 @@ img[class*="avatar"] {
   content: '';
   display: block;
   position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 12px;
-  height: 12px;
+  top: .2em;
+  right: .2em;
+  width: 1em;
+  height: 1em;
   background-color: #ffbd00; /* default = comment */
   border-radius: 50%;
   border: 1px solid #000;
-}
-.reviewer[data-old="true"]::after {
-  background-color: #fff;
 }
 .reviewer[data-state="APPROVED"]::after {
   background-color: #30ff30;
@@ -165,7 +161,10 @@ img[class*="avatar"] {
 .reviewer[data-state="CHANGES_REQUESTED"]::after {
   background-color: #ff3030;
 }
+.reviewer[data-old="true"]::after {
+  background-color: #fff;
+}
 
 .reviewer-avatar {
-  filter: grayscale(.8);
+  filter: grayscale(.7);
 }

@@ -110,6 +110,10 @@
           queryGitHub(query, function (newPullRequestData) {
             mainLinkElement.textContent = newPullRequestData.title
 
+            newPullRequestData.requested_reviewers.forEach(function (reviewer) {
+              if (!reviewersElements[reviewer.login]) addReviewer(reviewer)
+            })
+
             // Remove pull request if status is not 'open'
             if (newPullRequestData.state === 'open') {
               setTimeout(update, refreshTime)
