@@ -77,7 +77,7 @@ img[class*="avatar"] {
   width: 100%;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 2px 0px rgba(0, 0, 0, .2);
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, .3);
 
   animation-name: fadeInUp;
   animation-duration: .5s;
@@ -103,10 +103,18 @@ img[class*="avatar"] {
   top: -1px;
   background-color: #ff0000;
 }
+.pull-request a {
+  text-decoration: none;
+  color: currentColor;
+}
+.pull-request a:hover {
+  text-decoration: underline;
+}
 
 .author-avatar,
-.main-link,
+.main-data-container,
 .reviewers-list {
+  display: inline-block;
   vertical-align: middle;
   height: 100%;
 }
@@ -115,14 +123,31 @@ img[class*="avatar"] {
   margin-left: -1px;
 }
 
-.main-link {
-  text-decoration: none;
-  color: currentColor;
-  font-size: 1.5em;
-  margin: 0 1em;
+.main-data-container {
+  line-height: 1.2;
+  padding: .4em 1em;
 }
-.main-link:hover {
-  text-decoration: underline;
+
+.main-link {
+  font-size: 1.5em;
+}
+
+.additional-data-container {
+  opacity: .8;
+}
+
+.created-time::before {
+  content: 'Created ';
+}
+.created-time::after {
+  content: ' ago in ';
+}
+
+.updated-time::before {
+  content: ' updated ';
+}
+.updated-time::after {
+  content: ' ago';
 }
 
 .reviewers-list {

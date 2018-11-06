@@ -1,4 +1,4 @@
-'use strict'
+'Use strict'
 
 ;(function (document) {
 
@@ -31,10 +31,17 @@
   function handlePullRequest (data, defaultBranch, refreshTime) {
     var pullRequestElement = document.createElement('li')
     var authorAvatarElement = document.createElement('img')
+    var mainDataContainerElement = document.createElement('span')
     var mainLinkElement = document.createElement('a')
+    var additionalDataContainerElement = document.createElement('div')
+    var createdTimeElement = document.createElement('span')
+    var repoLinkElement = document.createElement('a')
+    var updatedTimeElement = document.createElement('span')
     var reviewersListElement = document.createElement('ul')
     var reviewersElements = {}
-    var pullRequestTimer = new Timer(pullRequestElement)
+    var pullRequestTimer = new Timer()
+    var createdTimeTimer = new Timer()
+    var updatedTimeTimer = new Timer()
 
     var query = '/repos/' + data.base.repo.full_name +
                 '/pulls/' + data.number
@@ -54,14 +61,28 @@
       reviewersElements[reviewer.login] = listElement
     }
 
+    function getTimeSince (date) {
+      return (new Date()) - (new Date(date))
+    }
+
     pullRequestElement.appendChild(authorAvatarElement)
-    pullRequestElement.appendChild(mainLinkElement)
+    pullRequestElement.appendChild(mainDataContainerElement)
     pullRequestElement.appendChild(reviewersListElement)
+    mainDataContainerElement.appendChild(mainLinkElement)
+    mainDataContainerElement.appendChild(additionalDataContainerElement)
+    additionalDataContainerElement.appendChild(createdTimeElement)
+    additionalDataContainerElement.appendChild(repoLinkElement)
+    additionalDataContainerElement.appendChild(updatedTimeElement)
     pullRequestsListElement.appendChild(pullRequestElement)
 
     pullRequestElement.classList.add('pull-request')
     authorAvatarElement.classList.add('author-avatar')
+    mainDataContainerElement.classList.add('main-data-container')
     mainLinkElement.classList.add('main-link')
+    additionalDataContainerElement.classList.add('additional-data-container')
+    createdTimeElement.classList.add('created-time')
+    repoLinkElement.classList.add('repo-link')
+    updatedTimeElement.classList.add('updated-time')
     reviewersListElement.classList.add('reviewers-list')
 
     data.requested_reviewers.forEach(function (reviewer) {
@@ -74,8 +95,14 @@
     mainLinkElement.href = data.html_url
     mainLinkElement.textContent = data.title
     mainLinkElement.target = '_blank'
+    repoLinkElement.href = data.base.repo.html_url
+    repoLinkElement.textContent = data.base.repo.full_name
+    repoLinkElement.target = '_blank'
 
-    // TODO add setting for each repository
+    createdTimeTimer.start(true, getTimeSince(data.created_at), function (time) {
+      createdTimeElement.textContent = time
+    })
+
     if (data.base.ref !== defaultBranch) {
       pullRequestElement.classList.add('branch-warning')
     }
@@ -107,18 +134,22 @@
             reviewersElements[login].dataset.old = commitDate - reviewDate > 0
           })
 
-          queryGitHub(query, function (newPullRequestData) {
-            mainLinkElement.textContent = newPullRequestData.title
+          queryGitHub(query, function (newData) {
+            mainLinkElement.textContent = newData.title
 
-            newPullRequestData.requested_reviewers.forEach(function (reviewer) {
+            updatedTimeTimer.start(true, getTimeSince(newData.updated_at), function (time) {
+              updatedTimeElement.textContent = time
+            })
+
+            newData.requested_reviewers.forEach(function (reviewer) {
               if (!reviewersElements[reviewer.login]) addReviewer(reviewer)
             })
 
-            // Remove pull request if status is not 'open'
-            if (newPullRequestData.state === 'open') {
-              setTimeout(update, refreshTime)
-              pullRequestTimer.set(refreshTime / 1000)
-            } else {
+            if (newData.state === 'open') {
+              pullRequestTimer.start(false, refreshTime, function (time) {
+                pullRequestElement.dataset.timer = time
+              }, update)
+            } else { // Remove pull request if status is not 'open'
               pullRequestsListElement.removeChild(pullRequestElement)
             }
           })
@@ -132,7 +163,8 @@
    */
   function init () {
     var watchedPullRequests = []
-    var listTimer = new Timer(document.querySelector('header [data-timer]'))
+    var listTimerElement = document.querySelector('header [data-timer]')
+    var listTimer = new Timer()
 
     if (!config) {
       location.href = 'config.html'
@@ -166,8 +198,9 @@
         })
       })
 
-      setTimeout(update, config.refreshTime)
-      listTimer.set(config.refreshTime / 1000)
+      listTimer.start(false, config.refreshTime, function (time) {
+        listTimerElement.dataset.timer = time
+      }, update)
     })()
   }
 
