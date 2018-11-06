@@ -1,4 +1,3 @@
 Pull request monitor (AKA ProMonitor)
 ===
-
-http://gumen.pl/promonitor
+[devballteam.github.io/promonitor](https://devballteam.github.io/promonitor)
