@@ -78,6 +78,7 @@ img[class*="avatar"] {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, .3);
+  white-space: nowrap;
 
   animation-name: fadeInUp;
   animation-duration: .5s;
@@ -125,11 +126,16 @@ img[class*="avatar"] {
 
 .main-data-container {
   line-height: 1.2;
-  padding: .4em 1em;
+  padding: .45em 1em;
 }
 
+.ticket-link,
 .main-link {
   font-size: 1.5em;
+}
+
+.ticket-link {
+  margin-right: .3em;
 }
 
 .additional-data-container {

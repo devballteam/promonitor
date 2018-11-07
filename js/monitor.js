@@ -36,6 +36,7 @@
     var additionalDataContainerElement = document.createElement('div')
     var createdTimeElement = document.createElement('span')
     var repoLinkElement = document.createElement('a')
+    var ticketLinkElement
     var updatedTimeElement = document.createElement('span')
     var reviewersListElement = document.createElement('ul')
     var reviewersElements = {}
@@ -59,6 +60,25 @@
       reviewersListElement.appendChild(listElement)
 
       reviewersElements[reviewer.login] = listElement
+    }
+
+    function parseTicketId (title) {
+      var ticketId = title.match(/^(.+?[- ]\d+)/)
+
+      if (ticketId) {
+        mainLinkElement.textContent = title.replace(/^(.+?[- ]\d+)[: ]/, '').trim()
+        ticketId = ticketId[0].replace(' ', '-').toUpperCase().trim()
+
+        if (!ticketLinkElement) {
+          ticketLinkElement = document.createElement('a')
+          mainDataContainerElement.insertBefore(ticketLinkElement, mainLinkElement)
+        }
+
+        ticketLinkElement.classList.add('ticket-link')
+        ticketLinkElement.target = '_blank'
+        ticketLinkElement.textContent = ticketId + ':'
+        ticketLinkElement.href = 'https://jira2.performgroup.com/browse/' + ticketId
+      }
     }
 
     function getTimeSince (date) {
@@ -99,6 +119,8 @@
     repoLinkElement.textContent = data.base.repo.full_name
     repoLinkElement.target = '_blank'
 
+    parseTicketId(data.title)
+
     createdTimeTimer.start(true, getTimeSince(data.created_at), function (time) {
       createdTimeElement.textContent = time
     })
@@ -135,7 +157,7 @@
           })
 
           queryGitHub(query, function (newData) {
-            mainLinkElement.textContent = newData.title
+            parseTicketId(data.title)
 
             updatedTimeTimer.start(true, getTimeSince(newData.updated_at), function (time) {
               updatedTimeElement.textContent = time
