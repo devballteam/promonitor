@@ -108,7 +108,7 @@ img[class*="avatar"] {
   text-decoration: none;
   color: currentColor;
 }
-.pull-request a:hover {
+.pull-request a:not(.button):hover {
   text-decoration: underline;
 }
 
@@ -129,13 +129,17 @@ img[class*="avatar"] {
   padding: .45em 1em;
 }
 
-.ticket-link,
 .main-link {
   font-size: 1.5em;
 }
 
 .ticket-link {
-  margin-right: .3em;
+  font-size: .8em;
+  margin-right: .5em;
+  border: 1px solid #000;
+  background-color: #fff;
+  padding: 0 .2em;
+  vertical-align: 4px;
 }
 
 .additional-data-container {

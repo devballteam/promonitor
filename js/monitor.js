@@ -68,18 +68,22 @@
       var ticketId = title.match(/^(.+?[- ]\d+)/)
 
       if (ticketId) {
-        mainLinkElement.textContent = title.replace(/^(.+?[- ]\d+)[: ]/, '').trim()
         ticketId = ticketId[0].replace(' ', '-').toUpperCase().trim()
 
         if (!ticketLinkElement) {
           ticketLinkElement = document.createElement('a')
+          ticketLinkElement.textContent = 'JIRA'
+          ticketLinkElement.classList.add('ticket-link')
+          ticketLinkElement.classList.add('button')
+          ticketLinkElement.target = '_blank'
           mainDataContainerElement.insertBefore(ticketLinkElement, mainLinkElement)
         }
 
-        ticketLinkElement.classList.add('ticket-link')
-        ticketLinkElement.target = '_blank'
-        ticketLinkElement.textContent = ticketId + ':'
+        ticketLinkElement.style.display = 'inline'
+        ticketLinkElement.title = 'go to ticket ' + ticketId
         ticketLinkElement.href = 'https://jira2.performgroup.com/browse/' + ticketId
+      } else if (ticketLinkElement) {
+        ticketLinkElement.style.display = 'none'
       }
     }
 
@@ -159,6 +163,7 @@
           })
 
           queryGitHub(query, '', function (newData) {
+            mainLinkElement.textContent = newData.title
             parseTicketId(data.title)
 
             updatedTimeTimer.start(true, getTimeSince(newData.updated_at), function (time) {
