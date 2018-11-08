@@ -21,8 +21,10 @@
   /**
    * Send request query to github api
    */
-  function queryGitHub (query, callback) {
-    getJSON('https://api.github.com' + query + '?access_token=' + config.token, callback)
+  function queryGitHub (query, params, callback) {
+    getJSON('https://api.github.com' + query +
+            '?access_token=' + config.token +
+            params || '', callback)
   }
 
   /**
@@ -131,7 +133,7 @@
 
     ;(function update () {
       // Get all reviews
-      queryGitHub(query + '/reviews', function (reviews) {
+      queryGitHub(query + '/reviews', '&page=1&per_page=9000', function (reviews) {
         // Get only last reviews (user login as key in 'reviews'object)
         reviews = reviews.reduce(function (acc, review) {
           if (review.user.login !== data.user.login && // omit PR author
@@ -144,7 +146,7 @@
         }, {})
 
         // Get all commits
-        queryGitHub(query + '/commits', function (commits) {
+        queryGitHub(query + '/commits', '', function (commits) {
           // Last commit date
           var commitDate = new Date(commits.pop().commit.committer.date)
 
@@ -156,7 +158,7 @@
             reviewersElements[login].dataset.old = commitDate - reviewDate > 0
           })
 
-          queryGitHub(query, function (newData) {
+          queryGitHub(query, '', function (newData) {
             parseTicketId(data.title)
 
             updatedTimeTimer.start(true, getTimeSince(newData.updated_at), function (time) {
@@ -204,7 +206,7 @@
       console.log('updating list of pull requests')
 
       config.repos.forEach(function (repo) {
-        queryGitHub('/repos/' + repo.fullName + '/pulls', function (repoPulls) {
+        queryGitHub('/repos/' + repo.fullName + '/pulls', '', function (repoPulls) {
           repoPulls.forEach(function (pullRequestData) {
             var pullRequestKey = repo.fullName + '/' + pullRequestData.number
 
