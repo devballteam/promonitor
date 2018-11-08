@@ -162,6 +162,11 @@
             reviewersElements[login].dataset.old = commitDate - reviewDate > 0
           })
 
+          // Check if all reviewers approved PR
+          pullRequestElement.dataset.ready = !Object.keys(reviewersElements).some(function (login) {
+            return reviewersElements[login].dataset.state !== 'APPROVED'
+          })
+
           queryGitHub(query, '', function (newData) {
             mainLinkElement.textContent = newData.title
             parseTicketId(data.title)

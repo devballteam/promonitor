@@ -84,6 +84,9 @@ img[class*="avatar"] {
   animation-duration: .5s;
   animation-timing-function: ease-out;
 }
+.pull-request[data-ready="true"] {
+  background-color: #ccffcc;
+}
 .pull-request[data-timer]::after,
 .pull-request.branch-warning::before {
   position: absolute;
