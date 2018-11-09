@@ -163,9 +163,11 @@
           })
 
           // Check if all reviewers approved PR
-          pullRequestElement.dataset.ready = !Object.keys(reviewersElements).some(function (login) {
-            return reviewersElements[login].dataset.state !== 'APPROVED'
-          })
+          pullRequestElement.dataset.ready =
+            Object.keys(reviewersElements).length && // There is at least one reviewer
+            !Object.keys(reviewersElements).some(function (login) {
+              return reviewersElements[login].dataset.state !== 'APPROVED'
+            })
 
           queryGitHub(query, '', function (newData) {
             mainLinkElement.textContent = newData.title
