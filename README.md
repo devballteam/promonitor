@@ -3,7 +3,7 @@ Pull request monitor (AKA ProMonitor)
 
 ![promonitor screenshot](promonitor_screenshot.png)
 
-ProMonitor is a simple tool that displays open Pull Requests from defined repositories.  It's main goal is to display reviewers status along with other basic informations like time from last update, author, repository etc.
+ProMonitor is a simple tool that displays open Pull Requests from defined gitshit repositories.  It's main goal is to display reviewers status along with other basic informations like time from last update, author, repository etc.
 
 First steps
 ---
@@ -65,3 +65,13 @@ Features
   - Green dot means that he approved PR.
   - White dot means that reviewer left some review earlier but during that time new commit was added so reviewer need to review PR again.
 - **Ready status** - When all reviewers will have 'approved' status then whole PR is highlighted with green background.
+- **JIRA link** - If PR name begins with JIRA ticket then additional button will appear before PR link.
+
+TOOD
+---
+
+- Create Favicon
+- Support mobile.  Currently avatars are to big to see PR informations on smartphone.
+- CSS diff.  Allow for injecting custom css so other teams can customize look and feel.
+- Style config page.  Currently config page is HTML only.  Looks ugly.
+- Create filter section.  It might be necessary to filter long lists of PRs to find what is important.
