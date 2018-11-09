@@ -70,9 +70,9 @@ Features
 TOOD
 ---
 
-- Create Favicon
-- Support mobile.  Currently avatars are to big to see PR informations on smartphone.
-- CSS diff.  Allow for injecting custom css so other teams can customize look and feel.
-- Style config page.  Currently config page is HTML only.  Looks ugly.
-- Create filter section.  It might be necessary to filter long lists of PRs to find what is important.
-- Custom JIRA link
+- [ ] Create Favicon
+- [ ] Support mobile.  Currently avatars are to big to see PR informations on smartphone.
+- [ ] CSS diff.  Allow for injecting custom css so other teams can customize look and feel.
+- [ ] Style config page.  Currently config page is HTML only.  Looks ugly.
+- [ ] Create filter section.  It might be necessary to filter long lists of PRs to find what is important.
+- [ ] Custom JIRA link
