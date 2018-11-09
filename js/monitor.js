@@ -166,7 +166,8 @@
           pullRequestElement.dataset.ready =
             Object.keys(reviewersElements).length && // There is at least one reviewer
             !Object.keys(reviewersElements).some(function (login) {
-              return reviewersElements[login].dataset.state !== 'APPROVED'
+              var dataset = reviewersElements[login].dataset
+              return dataset.state !== 'APPROVED' || dataset.old === 'true'
             })
 
           queryGitHub(query, '', function (newData) {
