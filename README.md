@@ -67,7 +67,7 @@ Features
 - **Ready status** - When all reviewers will have 'approved' status then whole PR is highlighted with green background.
 - **JIRA link** - If PR name begins with JIRA ticket then additional button will appear before PR link.
 
-TOOD
+TODO
 ---
 
 - [ ] Create Favicon
