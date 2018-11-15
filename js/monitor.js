@@ -7,6 +7,8 @@
 
   /**
    * GET request for JSON data
+   * @param {String} url
+   * @param {Function} callback
    */
   function getJSON (url, callback) {
     var request = new XMLHttpRequest()
@@ -20,6 +22,9 @@
 
   /**
    * Send request query to github api
+   * @param {String} query
+   * @param {String} params - params as query string
+   * @param {Function} callback
    */
   function queryGitHub (query, params, callback) {
     getJSON('https://api.github.com' + query +
@@ -38,17 +43,23 @@
     var additionalDataContainerElement = document.createElement('div')
     var createdTimeElement = document.createElement('span')
     var repoLinkElement = document.createElement('a')
-    var ticketLinkElement
     var updatedTimeElement = document.createElement('span')
     var reviewersListElement = document.createElement('ul')
+    var ticketLinkElement // created later if ticket id exist in PR title
     var reviewersElements = {}
     var pullRequestTimer = new Timer()
     var createdTimeTimer = new Timer()
     var updatedTimeTimer = new Timer()
 
+    // All future queries for this PR will start with this string
     var query = '/repos/' + data.base.repo.full_name +
                 '/pulls/' + data.number
 
+    /**
+     * Create element for given reviewer and add it to reviewersList
+     * for future updates
+     * @pram {Object} reviewer - reviewer data from github api
+     */
     function addReviewer (reviewer) {
       var listElement = document.createElement('li')
       var avatarElement = document.createElement('img')
@@ -64,6 +75,12 @@
       reviewersElements[reviewer.login] = listElement
     }
 
+    /**
+     * Check if given title starts with ticket id.  If yes then parse it,
+     * create link element (if don't already exist) and update element value
+     * with direct link to JIRA ticket with that id.
+     * @param {String} title - PR title
+     */
     function parseTicketId (title) {
       var ticketId = title.match(/^(.+?[- ]\d+)/)
 
@@ -83,14 +100,22 @@
         ticketLinkElement.title = 'go to ticket ' + ticketId
         ticketLinkElement.href = 'https://jira2.performgroup.com/browse/' + ticketId
       } else if (ticketLinkElement) {
+        // Ticket link already exist but new title don't have proper ticket id
+        // so link element is hidden.
         ticketLinkElement.style.display = 'none'
       }
     }
 
+    /**
+     * Calculate difference between given date and current date
+     * @param {String} date - Date in string format
+     * @return {Number} Difference in dates in milliseconds
+     */
     function getTimeSince (date) {
       return (new Date()) - (new Date(date))
     }
 
+    // Combine all elements in main pullRequestElement
     pullRequestElement.appendChild(authorAvatarElement)
     pullRequestElement.appendChild(mainDataContainerElement)
     pullRequestElement.appendChild(reviewersListElement)
@@ -101,6 +126,7 @@
     additionalDataContainerElement.appendChild(updatedTimeElement)
     pullRequestsListElement.appendChild(pullRequestElement)
 
+    // Fill elements with classes
     pullRequestElement.classList.add('pull-request')
     authorAvatarElement.classList.add('author-avatar')
     mainDataContainerElement.classList.add('main-data-container')
@@ -111,10 +137,12 @@
     updatedTimeElement.classList.add('updated-time')
     reviewersListElement.classList.add('reviewers-list')
 
+    // Add initial requested reviewers list
     data.requested_reviewers.forEach(function (reviewer) {
       addReviewer(reviewer)
     })
 
+    // Fill static and initial data
     pullRequestElement.dataset.base = data.base.ref
     authorAvatarElement.src = data.user.avatar_url
     authorAvatarElement.title = data.user.login
@@ -124,21 +152,17 @@
     repoLinkElement.href = data.base.repo.html_url
     repoLinkElement.textContent = data.base.repo.full_name
     repoLinkElement.target = '_blank'
-
     parseTicketId(data.title)
 
+    // Run timer for time of PR creation
     createdTimeTimer.start(true, getTimeSince(data.created_at), function (time) {
       createdTimeElement.textContent = time
     })
 
-    if (data.base.ref !== defaultBranch) {
-      pullRequestElement.classList.add('branch-warning')
-    }
-
     ;(function update () {
       // Get all reviews
       queryGitHub(query + '/reviews', '&page=1&per_page=9000', function (reviews) {
-        // Get only last reviews (user login as key in 'reviews'object)
+        // Get only last reviews ('user.login' as key in 'reviews' object)
         reviews = reviews.reduce(function (acc, review) {
           if (review.user.login !== data.user.login && // omit PR author
               (!acc[review.user.login] || // add new reviewer to acc
@@ -151,9 +175,9 @@
 
         // Get all commits
         queryGitHub(query + '/commits', '', function (commits) {
-          // Last commit date
-          var commitDate = new Date(commits.pop().commit.committer.date)
+          var commitDate = new Date(commits.pop().commit.committer.date) // Last commit date
 
+          // Update state of each review and check if review is old
           Object.keys(reviews).forEach(function (login) {
             var reviewDate = new Date(reviews[login].submitted_at)
 
@@ -170,23 +194,31 @@
               return dataset.state !== 'APPROVED' || dataset.old === 'true'
             })
 
+          // Get new main PR data
           queryGitHub(query, '', function (newData) {
-            mainLinkElement.textContent = newData.title
-            parseTicketId(data.title)
+            mainLinkElement.textContent = newData.title // update PR title
+            parseTicketId(data.title)                   // update ticket link
 
+            // Update timer value for 'updated time' data
             updatedTimeTimer.start(true, getTimeSince(newData.updated_at), function (time) {
               updatedTimeElement.textContent = time
             })
 
+            // Update requested reviewers list
             newData.requested_reviewers.forEach(function (reviewer) {
               if (!reviewersElements[reviewer.login]) addReviewer(reviewer)
             })
 
+            // Update wrong branch warning
+            pullRequestElement.classList[newData.base.ref === defaultBranch ? 'remove' : 'add']('branch-warning')
+
+            // Run timer for update if PR is still open
+            // Else break update loop and remove Pull Request
             if (newData.state === 'open') {
               pullRequestTimer.start(false, refreshTime, function (time) {
                 pullRequestElement.dataset.timer = time
               }, update)
-            } else { // Remove pull request if status is not 'open'
+            } else {
               pullRequestsListElement.removeChild(pullRequestElement)
             }
           })
@@ -241,6 +273,6 @@
     })()
   }
 
-  init()
+  init() // run promonitor
 
 })(document)
