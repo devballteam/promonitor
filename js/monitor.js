@@ -160,6 +160,11 @@
     })
 
     ;(function update () {
+      // Start new timer
+      pullRequestTimer.start(false, refreshTime, function (time) {
+        pullRequestElement.dataset.timer = time
+      }, update)
+
       // Get all reviews
       queryGitHub(query + '/reviews', '&page=1&per_page=9000', function (reviews) {
         // Get only last reviews ('user.login' as key in 'reviews' object)
@@ -212,14 +217,12 @@
             // Update wrong branch warning
             pullRequestElement.classList[newData.base.ref === defaultBranch ? 'remove' : 'add']('branch-warning')
 
-            // Run timer for update if PR is still open
-            // Else break update loop and remove Pull Request
-            if (newData.state === 'open') {
-              pullRequestTimer.start(false, refreshTime, function (time) {
-                pullRequestElement.dataset.timer = time
-              }, update)
-            } else {
+            // When PR is not open stop timer and remove PR from list
+            if (newData.state !== 'open') {
               pullRequestsListElement.removeChild(pullRequestElement)
+              createdTimeTimer.stop()
+              updatedTimeTimer.stop()
+              pullRequestTimer.stop()
             }
           })
         })

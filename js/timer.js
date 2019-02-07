@@ -12,7 +12,7 @@ function Timer () {
  * @param {Boolean} increase=false - if true time will be increased
  * @param {Number} time - time in milliseconds
  * @param {Function} onChange - executed on each time change, new time value in first callback param
- * @param {Function} [onComplete] - executed when increase=true and time reach 0
+ * @param {Function} [onComplete] - executed when increase=false and time reach 0
  */
 Timer.prototype.start = function (increase, time, onChange, onComplete) {
   clearTimeout(this.timeout)
@@ -45,4 +45,12 @@ Timer.prototype.start = function (increase, time, onChange, onComplete) {
   } else if (onComplete) {
     onComplete()
   }
+}
+
+/**
+ * Stop timer
+ * @memeberof Timer
+ */
+Timer.prototype.stop = function () {
+  clearTimeout(this.timeout)
 }
