@@ -22,6 +22,7 @@ Config is stored in your `localStorage`.
   "token": "your_github_token",
   "refreshTime": 300000,
   "defaultBranch": "develop",
+  "ticketsUrl": "https://jira.your_company_domain.com/browse/",
   "repos": [
     {"fullName": "mateuszgachowski/Carpet.js"},
     {"fullName": "zeit/hyper-site", "defaultBranch": "master", "refreshTime": 1200000},
@@ -35,6 +36,7 @@ Config is stored in your `localStorage`.
 - `token`: GitHub token.  You can create one in your settings [page](https://github.com/settings/tokens).  During creation of token enable `repo` in scope section.  If you like to display PR from private repositories you will have to authenticate by clicking on `sso` button after token is created.
 - `refreshTime`: Time in milliseconds to next refresh.  On each main refrest list of PR is updated.  If new PR appear then it will be added to list.  From now PR is refreshed independent from main list.  Time to next refresh is displayed on top of the page (for PR list) and in left bottom corner of each PR.
 - `defaultBranch`: It's name of branch PR is aiming to mere.  If someone accidental create PR with different target then you will see red warning in top left corner with branch name.
+- `ticketsUrl`: Link to your issue tracker.  To make it work you have to begin your PR with ticket ID like: `PROJECTNAME-NUMBER` or `TEAMNAME NUMBER` (so its text and number separated with space or dash).
 - `repos`: List of repositories you like to monitor.
 - `repos[].fullName`: Name of repository.
 - `repos[].defaultBranch`: **Optional** You can specify different default branch for each repository if you like to have it different then main `defaultBranch`.
@@ -65,4 +67,4 @@ Features
   - Green dot means that he approved PR.
   - White dot means that reviewer left some review earlier but during that time new commit was added so reviewer need to review PR again.
 - **Ready status** - When all reviewers will have 'approved' status then whole PR is highlighted with green background.
-- **JIRA link** - If PR name begins with JIRA ticket then additional button will appear before PR link.
+- **Ticket link** - If PR name begins with issue tracker (like JIRA) ticket then additional button will appear before PR link.

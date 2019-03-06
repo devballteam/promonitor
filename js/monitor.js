@@ -78,18 +78,18 @@
     /**
      * Check if given title starts with ticket id.  If yes then parse it,
      * create link element (if don't already exist) and update element value
-     * with direct link to JIRA ticket with that id.
+     * with direct link to ticket with that id.
      * @param {String} title - PR title
      */
     function parseTicketId (title) {
       var ticketId = title.match(/^(.+?[- ]\d+)/)
 
-      if (ticketId) {
+      if (config.ticketsUrl && ticketId) {
         ticketId = ticketId[0].replace(' ', '-').toUpperCase().trim()
 
         if (!ticketLinkElement) {
           ticketLinkElement = document.createElement('a')
-          ticketLinkElement.textContent = 'JIRA'
+          ticketLinkElement.textContent = 'LINK'
           ticketLinkElement.classList.add('ticket-link')
           ticketLinkElement.classList.add('button')
           ticketLinkElement.target = '_blank'
@@ -98,7 +98,7 @@
 
         ticketLinkElement.style.display = 'inline'
         ticketLinkElement.title = 'go to ticket ' + ticketId
-        ticketLinkElement.href = 'https://jira2.performgroup.com/browse/' + ticketId
+        ticketLinkElement.href = config.ticketsUrl + ticketId
       } else if (ticketLinkElement) {
         // Ticket link already exist but new title don't have proper ticket id
         // so link element is hidden.
