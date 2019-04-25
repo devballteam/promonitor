@@ -1,8 +1,7 @@
-'Use strict'
+'use strict'
 
-;(function (document) {
+;(function (document, config) {
 
-  var config = localStorage.config
   var pullRequestsListElement = document.getElementById('pull-requests-list')
 
   /**
@@ -238,19 +237,7 @@
     var listTimerElement = document.querySelector('header [data-timer]')
     var listTimer = new Timer()
 
-    if (!config) {
-      location.href = 'config.html'
-      return
-    }
-
-    try {
-      config = JSON.parse(config)
-    } catch (error) {
-      location.href = 'config.html#parse-error'
-      return
-    }
-
-    (function update () {
+    ;(function update () {
       console.log('updating list of pull requests')
 
       config.repos.forEach(function (repo) {
@@ -278,4 +265,4 @@
 
   init() // run promonitor
 
-})(document)
+})(document, config)
