@@ -1,0 +1,32 @@
+#reminder-timer[data-timer="0"] {
+  display: none;
+}
+
+#reminder-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  border: 5px solid #ff0000;
+  background-color: rgba(255, 0, 0, 1);
+  transition: background-color 1s;
+  pointer-events: none;
+}
+
+#reminder-message p {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  bottom: 0;
+  background-color: #ff0000;
+  color: #fff;
+  padding-top: 5px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+#reminder-message:not([hidden]) {
+  background-color: rgba(255, 0, 0, 0);
+}

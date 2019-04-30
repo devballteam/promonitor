@@ -34,6 +34,10 @@ header {
   margin-bottom: 1em;
 }
 
+header > * {
+  margin-right: 2em;
+}
+
 nav {
   text-align: right;
   display: inline-block;
