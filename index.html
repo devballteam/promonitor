@@ -17,8 +17,8 @@
       <nav>
         <a href="config.html">config</a>
       </nav>
-      <span id="list-timer" data-timer="0">List update after </span>
-      <span id="reminder-timer" data-timer="0">Reminder after </span>
+      <span id="list-timer" data-timer="0">List update after: </span>
+      <span id="reminder-timer" data-timer="0">Reminder after: </span>
     </header>
 
     <main class="container">
@@ -26,7 +26,10 @@
     </main>
 
     <div id="reminder-message" hidden>
-      <p>The time has come to check Pull Requests! <span id="reminder-message-timer" data-timer="0">Time left: </span></p>
+      <p>
+        <span id="reminder-custom-message"></span>
+        <span id="reminder-message-timer" data-timer="0">Time left: </span>
+      </p>
     </div>
 
     <script type="text/javascript" src="js/get_config.js"></script>

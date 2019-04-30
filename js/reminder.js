@@ -8,6 +8,9 @@
   // Apply defaults
   if (!settings.hours)    settings.hours    = ["11:00", "14:00"]
   if (!settings.duration) settings.duration = 1800000 // 30 min
+  if (!settings.message)  settings.message  = 'It\'s time to review Pull Requests.'
+
+  document.getElementById('reminder-custom-message').textContent = settings.message
 
   settings.hours = settings.hours
     .map(function(hour) {
