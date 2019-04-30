@@ -23,6 +23,11 @@ Config is stored in your `localStorage`.
   "refreshTime": 300000,
   "defaultBranch": "develop",
   "ticketsUrl": "https://jira.your_company_domain.com/browse/",
+  "reminder": {
+    "hours": ["9:30", "11:00", "14:00"],
+    "duration": 1800000,
+    "message": "The time has come to check Pull Requests!"
+  },
   "repos": [
     {"fullName": "mateuszgachowski/Carpet.js"},
     {"fullName": "zeit/hyper-site", "defaultBranch": "master", "refreshTime": 1200000},
@@ -37,6 +42,10 @@ Config is stored in your `localStorage`.
 - `refreshTime`: Time in milliseconds to next refresh.  On each main refrest list of PR is updated.  If new PR appear then it will be added to list.  From now PR is refreshed independent from main list.  Time to next refresh is displayed on top of the page (for PR list) and in left bottom corner of each PR.
 - `defaultBranch`: It's name of branch PR is aiming to mere.  If someone accidental create PR with different target then you will see red warning in top left corner with branch name.
 - `ticketsUrl`: Link to your issue tracker.  To make it work you have to begin your PR with ticket ID like: `PROJECTNAME-NUMBER` or `TEAMNAME NUMBER` (so its text and number separated with space or dash).
+- `reminder`: By defining this object You enable reminder feature.  It will remind Your team on specified hours that they should look at Pull Requests.  Reminder is displayed as clearly visible red border around whole screen with message at the bottom.
+- `reminder.hours`: **Optional** Array with hours in string format.  By default its ["11:00", "14:00"].
+- `reminder.duration`: **Optional** How long reminder message should be visible.  Value in milliseconds. Default is 30 min.
+- `reminder.message`: **Optional** Your reminder message.  Default value is: "It's time to review Pull Requests.".
 - `repos`: List of repositories you like to monitor.
 - `repos[].fullName`: Name of repository.
 - `repos[].defaultBranch`: **Optional** You can specify different default branch for each repository if you like to have it different then main `defaultBranch`.
