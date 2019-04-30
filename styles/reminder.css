@@ -1,3 +1,7 @@
+#reminder-timer[data-timer="0"] {
+  display: none;
+}
+
 #reminder-message {
   position: fixed;
   top: 0;
