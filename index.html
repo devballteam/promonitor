@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/monitor.css">
+    <link rel="stylesheet" href="styles/reminder.css">
   </head>
 
   <body>
@@ -16,12 +17,17 @@
       <nav>
         <a href="config.html">config</a>
       </nav>
-      <span data-timer="0">Check for new pull requests in:</span>
+      <span id="list-timer" data-timer="0">List update after </span>
+      <span id="reminder-timer" data-timer="0">Reminder after </span>
     </header>
 
     <main class="container">
       <ul id="pull-requests-list"></ul>
     </main>
+
+    <div id="reminder-message" hidden>
+      <p>The time has come to check Pull Requests! <span id="reminder-message-timer" data-timer="0">Time left: </span></p>
+    </div>
 
     <script type="text/javascript" src="js/get_config.js"></script>
     <script type="text/javascript" src="js/timer.js"></script>

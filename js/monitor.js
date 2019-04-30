@@ -234,7 +234,7 @@
    */
   function init () {
     var watchedPullRequests = []
-    var listTimerElement = document.querySelector('header [data-timer]')
+    var listTimerElement = document.getElementById('list-timer')
     var listTimer = new Timer()
 
     ;(function update () {
