@@ -73,7 +73,6 @@ img[class*="avatar"] {
 }
 
 .pull-request {
-  margin-bottom: 1em;
   background-color: #ececec;
   color: #000;
   border: 1px solid #000;
@@ -81,12 +80,14 @@ img[class*="avatar"] {
   width: 100%;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 2px 0px rgba(0, 0, 0, .3);
   white-space: nowrap;
 
   animation-name: fadeInUp;
   animation-duration: .5s;
   animation-timing-function: ease-out;
+}
+.pull-request:not(:first-child) {
+  margin-top: -1px;
 }
 .pull-request[data-ready="true"] {
   background-color: #ccffcc;
