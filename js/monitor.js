@@ -263,6 +263,13 @@
     })()
   }
 
+  function addCustomStyles () {
+    var stylesElement = document.createElement('style')
+    stylesElement.innerHTML = localStorage.customStyles
+    document.head.appendChild(stylesElement);
+  }
+
+  addCustomStyles();
   init() // run promonitor
 
 })(document, config)

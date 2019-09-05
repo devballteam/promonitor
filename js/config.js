@@ -3,13 +3,19 @@
 ;(function (document) {
 
   var formElement = document.getElementById('config')
-  var textareaElement = formElement.querySelector('textarea')
+  var inputs = formElement.querySelectorAll('[name]')
 
-  if (localStorage.config) textareaElement.value = localStorage.config
+  ;[].forEach.call(inputs, input => {
+    if (localStorage[input.name]) {
+      input.value = localStorage[input.name]
+    }
+  })
 
   formElement.addEventListener('submit', function (event) {
     event.preventDefault()
-    localStorage.config = textareaElement.value
+    ;[].forEach.call(inputs, input => {
+      localStorage[input.name] = input.value
+    })
     location.href = "index.html"
   })
 

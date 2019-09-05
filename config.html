@@ -20,8 +20,7 @@
       <p id="parse-error" class="error"><strong>Parse error.</strong> Make sure that your config is written in proper JSON format.</p>
       <p>Visit: <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> to create new token.  For scope select "repo" and after token is created don't forget to click on 'sso' button.</p>
       <form id="config">
-        <textarea rows="20" cols="80" required>
-{
+        <textarea name="config" rows="20" cols="80" required>{
   "token": "your_github_token",
   "refreshTime": 600000, // 10 min in ms
   "defaultBranch": "develop",
@@ -43,9 +42,10 @@
       "defaultBranch": "release/dev"
     }
   ]
-}
-        </textarea>
-        <input type="submit" value="save">
+}</textarea>
+        <textarea name="customStyles" rows="20" cols="80">/* Custom styles */
+</textarea>
+        <input type="submit" value="save and go back">
       </form>
     </main>
 
