@@ -245,14 +245,19 @@
           repoPulls.forEach(function (pullRequestData) {
             var pullRequestKey = repo.fullName + '/' + pullRequestData.number
 
-            if (!~watchedPullRequests.indexOf(pullRequestKey)) {
-              watchedPullRequests.push(pullRequestKey)
-              handlePullRequest(
-                pullRequestData,
-                repo.defaultBranch || config.defaultBranch,
-                repo.refreshTime || config.refreshTime
-              )
-            }
+            // Ignore RP created by bots if `ignoreBots` is true in config
+            if (config.ignoreBots && !!~pullRequestData.user.login.indexOf('[bot]')) return
+
+            // Ignore PR if it's already handled
+            if (!!~watchedPullRequests.indexOf(pullRequestKey)) return
+
+            // Handle new PR
+            watchedPullRequests.push(pullRequestKey)
+            handlePullRequest(
+              pullRequestData,
+              repo.defaultBranch || config.defaultBranch,
+              repo.refreshTime || config.refreshTime
+            )
           })
         })
       })
