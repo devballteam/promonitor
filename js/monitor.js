@@ -16,6 +16,7 @@
       else console.error('getJSON status !== 200', url, request)
     }
     request.open('GET', url, true)
+    request.setRequestHeader('Authorization','token ' + config.token);
     request.send(null)
   }
 
@@ -26,9 +27,7 @@
    * @param {Function} callback
    */
   function queryGitHub (query, params, callback) {
-    getJSON('https://api.github.com' + query +
-            '?access_token=' + config.token +
-            params || '', callback)
+    getJSON('https://api.github.com' + query + '?' + params || '', callback)
   }
 
   /**
