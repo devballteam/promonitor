@@ -3,6 +3,9 @@
 ;(function (document, config) {
 
   var pullRequestsListElement = document.getElementById('pull-requests-list')
+  var watchedPullRequests = []
+  var titleElement = document.head.querySelector('title')
+  var websiteTitle = titleElement.textContent
 
   /**
    * GET request for JSON data
@@ -30,10 +33,20 @@
     getJSON('https://api.github.com' + query + '?' + params || '', callback)
   }
 
+  function updatePullRequestsCounter () {
+    if (watchedPullRequests.length === 0) {
+      titleElement.textContent = websiteTitle
+    } else {
+      titleElement.textContent = '($1) $2'
+        .replace('$1', watchedPullRequests.length)
+        .replace('$2', websiteTitle)
+    }
+  }
+
   /**
    * Handle rendering and updating PR
    */
-  function handlePullRequest (data, defaultBranch, refreshTime) {
+  function handlePullRequest (data, defaultBranch, refreshTime, pullRequestKey) {
     var pullRequestElement = document.createElement('li')
     var authorAvatarElement = document.createElement('img')
     var mainDataContainerElement = document.createElement('span')
@@ -157,6 +170,8 @@
       createdTimeElement.textContent = time
     })
 
+    updatePullRequestsCounter()
+
     ;(function update () {
       // Start new timer
       pullRequestTimer.start(false, refreshTime, function (time) {
@@ -217,11 +232,14 @@
 
             // When PR is not open stop timer and remove PR from list
             if (newData.state !== 'open') {
+              watchedPullRequests.splice(watchedPullRequests.indexOf(pullRequestKey), 1)
               pullRequestsListElement.removeChild(pullRequestElement)
               createdTimeTimer.stop()
               updatedTimeTimer.stop()
               pullRequestTimer.stop()
             }
+            
+            updatePullRequestsCounter()
           })
         })
       })
@@ -232,7 +250,6 @@
    * Initialize promonitor using config
    */
   function init () {
-    var watchedPullRequests = []
     var listTimerElement = document.getElementById('list-timer')
     var listTimer = new Timer()
 
@@ -255,7 +272,8 @@
             handlePullRequest(
               pullRequestData,
               repo.defaultBranch || config.defaultBranch,
-              repo.refreshTime || config.refreshTime
+              repo.refreshTime || config.refreshTime,
+              pullRequestKey
             )
           })
         })
