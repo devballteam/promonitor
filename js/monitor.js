@@ -262,7 +262,10 @@
             var pullRequestKey = repo.fullName + '/' + pullRequestData.number
 
             // Ignore RP created by bots if `ignoreBots` is true in config
-            if (config.ignoreBots && !!~pullRequestData.user.login.indexOf('bot')) return
+            if (config.ignoreBots && typeof config.ignoreBots === 'boolean' && !!~pullRequestData.user.login.indexOf('[bot]')) return
+
+            // Ignore RP created by bots if `ignoreBots` is an array with bots name in config
+            if (config.ignoreBots && Array.isArray(config.ignoreBots) &&  config.ignoreBots.some(botName => pullRequestData.user.login === botName)) return
 
             // Ignore PR if it's already handled
             if (!!~watchedPullRequests.indexOf(pullRequestKey)) return
